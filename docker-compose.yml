@@ -1,0 +1,17 @@
+services:
+  app:
+    build: .
+    container_name: video_search_engine
+    # These two lines are CRITICAL for interactive CLI apps
+    stdin_open: true # docker run -i
+    tty: true        # docker run -t
+    volumes:
+      - ./src:/app/src           # Live code editing
+      - ./data:/app/data         # Persist downloads/images
+      - hf_cache:/root/.cache/huggingface # Persist LLM weights
+    env_file:
+      - .env
+
+volumes:
+  hf_cache:
+
