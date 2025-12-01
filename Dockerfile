@@ -1,23 +1,25 @@
-FROM python:3.10-slim
+FROM ubuntu:22.04
 
-# Install system dependencies
-# Added: libvips (required for Moondream/image processing)
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install dependencies
 RUN apt-get update && apt-get install -y \
+    python3.10 \
+    python3-pip \
     ffmpeg \
-    libgl1 \
-    libglib2.0-0 \
     libvips \
+    libvips-dev \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
+# Set default python
+RUN ln -s /usr/bin/python3.10 /usr/bin/python
+
 WORKDIR /app
 
-# Copy requirements first to leverage Docker cache
 COPY requirements.txt .
 
-# Install Python dependencies
+# FIX: Removed "--break-system-packages"
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Command
 CMD ["python", "src/main.py"]

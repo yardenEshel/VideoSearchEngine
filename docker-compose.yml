@@ -2,16 +2,18 @@ services:
   app:
     build: .
     container_name: video_search_engine
-    # These two lines are CRITICAL for interactive CLI apps
-    stdin_open: true # docker run -i
-    tty: true        # docker run -t
+    stdin_open: true
+    tty: true
     volumes:
-      - ./src:/app/src           # Live code editing
-      - ./data:/app/data         # Persist downloads/images
-      - hf_cache:/root/.cache/huggingface # Persist LLM weights
-    env_file:
-      - .env
+      - ./src:/app/src
+      - ./data:/app/data
+      - hf_cache:/root/.cache/huggingface
+    # COPY THIS SECTION EXACTLY:
+    environment:
+      - VIPS_CONCURRENCY=1
+      - VIPS_DISC_THRESHOLD=10mb
+      - OMP_NUM_THREADS=1
+      - VIPS_NOMMAP=1   
 
 volumes:
   hf_cache:
-

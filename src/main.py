@@ -7,9 +7,10 @@ from local_indexer import LocalIndexer
 logger = logging.getLogger(__name__)
 
 def main():
+    """Main entry point for the video search engine."""
     logging.basicConfig(
         level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
     )
 
     # --- Milestone 1: Download & Split ---

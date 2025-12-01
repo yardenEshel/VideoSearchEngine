@@ -1,11 +1,11 @@
---extra-index-url https://download.pytorch.org/whl/cpu
 yt-dlp
 scenedetect[opencv]
 torch
 torchvision
-transformers
+transformers==4.41.2
 einops
 rapidfuzz
 prompt_toolkit
 pillow
 google-generativeai
+accelerate
