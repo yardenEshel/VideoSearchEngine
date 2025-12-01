@@ -23,4 +23,3 @@ RUN pip install --no-cache-dir -r requirements.txt
 # to allow editing code without rebuilding the image.
 
 CMD ["python", "src/main.py"]
-
