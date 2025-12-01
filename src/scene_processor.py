@@ -1,10 +1,13 @@
+import contextlib
+import logging
 import os
 import sys
-import contextlib
 
 from scenedetect import open_video, SceneManager
 from scenedetect.detectors import ContentDetector
 from scenedetect.scene_manager import save_images
+
+logger = logging.getLogger(__name__)
 
 
 @contextlib.contextmanager
@@ -30,7 +33,7 @@ class SceneProcessor:
         Detects scenes and saves the middle frame of each scene as an image.
         threshold: Lower = more sensitive (more scenes). Higher = less sensitive (fewer scenes).
         """
-        print(f"[SceneProcessor] Processing {video_path} with threshold {threshold}...")
+        logger.info("Processing %s with threshold %s...", video_path, threshold)
         
         # Open video and create a scene manager
         video = open_video(video_path)
@@ -45,14 +48,14 @@ class SceneProcessor:
         scene_list = scene_manager.get_scene_list()
         
         count = len(scene_list)
-        print(f"[SceneProcessor] Found {count} scenes.")
+        logger.info("Found %s scenes.", count)
         
         if count == 0:
-            print("[SceneProcessor] No scenes found. Try lowering the threshold.")
+            logger.warning("No scenes found. Try lowering the threshold.")
             return 0
 
         # Save images
-        print("[SceneProcessor] Saving scene images...")
+        logger.info("Saving scene images...")
         with suppress_ffmpeg_output():
             save_images(
                 scene_list,

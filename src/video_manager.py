@@ -1,5 +1,10 @@
+import logging
 import os
+
 import yt_dlp
+
+logger = logging.getLogger(__name__)
+
 
 class VideoAssetManager:
     def __init__(self, base_dir="data"):
@@ -13,13 +18,13 @@ class VideoAssetManager:
         Returns the path to the downloaded video.
         """
         if os.path.exists(self.video_path) and not force:
-            print(f"[VideoAssetManager] Video found at {self.video_path}. Skipping download.")
+            logger.info("Video already exists at %s; skipping download.", self.video_path)
             return self.video_path
 
         if force and os.path.exists(self.video_path):
             os.remove(self.video_path)
 
-        print(f"[VideoAssetManager] Searching and downloading: '{search_query}'...")
+        logger.info("Searching and downloading: '%s'...", search_query)
 
         # Options for yt-dlp. We explicitly avoid AV1 sources because ffmpeg inside
         # the slim image cannot decode them reliably, which breaks PySceneDetect.
@@ -46,5 +51,5 @@ class VideoAssetManager:
             # ytsearch1: performs a search and downloads the first result
             ydl.download([f"ytsearch1:{search_query}"])
 
-        print("[VideoAssetManager] Download complete.")
+        logger.info("Download complete [%s].", self.video_path)
         return self.video_path
