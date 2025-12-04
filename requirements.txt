@@ -9,3 +9,4 @@ prompt_toolkit
 pillow
 google-generativeai
 accelerate
+python-dotenv
